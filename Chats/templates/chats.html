@@ -1,0 +1,113 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/static/chats/js/message_actions.js" ></script>
+<script src="/static/chats/js/chat_room_list.js"></script>
+<script src="/static/chats/js/somefuncs.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="/static/chats/css/design.css">
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<script>
+rooms = {{ rooms | safe }};
+    function ApplyAutoComplete(rooms) {
+     if(rooms.length >= 1){
+        autocomplete(document.getElementById("myInput"), rooms);}
+    }
+
+function SetUp() {
+    Create__list({{ messages|safe }});
+    var list = document.getElementById("list");
+    var id = list.firstElementChild.id;
+    request(id, true);
+    message({{ messag }});
+}
+
+function message(mess){
+    if(mess != undefined){
+        alert(mess);
+    }
+}
+
+message('{{ message }}');
+</script>
+
+    <body onload="SetUp()">
+        <div class="messaging">
+          <div class="inbox_msg">
+            <div class="inbox_people">
+              <div class="headind_srch">
+                <div class="recent_heading">
+                    <h4>Recent   </h4><button onclick="openForm()">New Room</button>
+                    <button onclick="openSearch(rooms)">Join Room</button>
+                </div>
+                <div class="srch_bar">
+                  <div class="stylish-input-group">
+                    <input type="text" class="search-bar"  placeholder="Search" id="search" onkeyup="Generate_chat_rooms()">
+                    </div>
+                </div>
+              </div>
+              <div class="inbox_chat scroll" id="list">
+
+            </div>
+          </div>
+            <div class="mesgs">
+              <div class="msg_history" id="start">
+              </div>
+              <div class="type_msg">
+                  <div class="input_msg_write">
+                    <input type="text" class="write_msg" placeholder="Type a message" id="inp" />
+                      <button class="msg_send_btn" type="button" id="button" onclick="Send_outcoming()">
+                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                      </button>
+                  </div>
+              </div>
+            </div>
+           </div>
+        </div>
+
+        <div class="form-popup" id="myForm">
+          <form action="http://127.0.0.1:5000/CreateRoom" class="form-container" method = "POST"
+           enctype = "multipart/form-data">
+            <h1> Create Group</h1>
+
+            <label for="email"><b>Name</b></label>
+            <input type="text" placeholder="Enter Name" name="Name" required>
+
+            <label for="psw"><b>Discription</b></label>
+            <input type="text" placeholder="Enter Disc" name="dsc" required>
+
+            <label for="image"><b>Image</b></label>
+            <input type="file" name="file">
+
+            <br>
+            <button type="submit" class="btn">Create</button>
+            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+          </form>
+        </div>
+        <div class="form-popup" id="mySearch">
+              <div class="autocomplete" style="width:300px;">
+                <input id="myInput" type="text" name="myCountry" placeholder="Rooom name">
+              </div>
+            <button type="button" onclick="DropDownlist()">Join</button>
+            <button type="button" class="btn cancel" onclick="closeSearch()">Close</button>
+            <br><br><br><br>
+        </div>
+    </body>
+</html>
